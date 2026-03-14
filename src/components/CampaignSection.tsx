@@ -27,12 +27,12 @@ const CAMPAIGNS: Campaign[] = [
     },
     {
         id: "qurban",
-        title: "Qurban Kemanusiaan",
+        title: "Qurban Idul Adha 1446H",
         description: "Tuntaskan Qurban untuk di Antero masyarakat. Mari bersama kemanusiaan dan berbagi.",
         targetAmount: 45_000_000,
         image: "/campaign-qurban.png",
-        badgeLabel: "SEDANG BERJALAN",
-        badgeColor: "#d97706",
+        badgeLabel: "AKTIF",
+        badgeColor: "#059669",
     },
     {
         id: "sedekah-jumat",
@@ -41,7 +41,7 @@ const CAMPAIGNS: Campaign[] = [
         targetAmount: 8_000_000,
         image: "/campaign-sedekah.png",
         badgeLabel: "AKTIF",
-        badgeColor: "#dc2626",
+        badgeColor: "#059669",
     },
 ];
 
