@@ -1,6 +1,6 @@
 /* File: src/lib/prisma.ts */
 
-import { PrismaClient } from "@/generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 /* Singleton PrismaClient — menghindari multiple instance saat hot reload */
 const globalForPrisma = globalThis as unknown as {
@@ -9,9 +9,7 @@ const globalForPrisma = globalThis as unknown as {
 
 export const prisma =
   globalForPrisma.prisma ??
-  new PrismaClient({
-    datasourceUrl: process.env.DATABASE_URL,
-  });
+  new PrismaClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;
