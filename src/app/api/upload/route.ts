@@ -27,27 +27,11 @@ export async function POST(request: NextRequest) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
         
-        // Konversi buffer ke base64
-        const base64Image = buffer.toString("base64");
+        // Konversi buffer ke base64 Data URI agar bisa disimpan langsung ke text database
+        const base64DataUri = `data:${file.type};base64,${buffer.toString("base64")}`;
         
-        const form = new FormData();
-        form.append("image", base64Image);
-        
-        // Menggunakan API gratis ImgBB (Tanpa perlu auth/login kompleks)
-        // API Key ini gratis dan public untuk upload anonim
-        const imgbbApiKey = "3887d25166f272c47abfbba28ad02afb"; // Public free token
-        const res = await fetch(`https://api.imgbb.com/1/upload?key=${imgbbApiKey}`, {
-            method: "POST",
-            body: form,
-        });
-        
-        const imgbbData = await res.json();
-        
-        if (imgbbData && imgbbData.success) {
-            return NextResponse.json({ success: true, url: imgbbData.data.url });
-        } else {
-            return NextResponse.json({ error: "Gagal mengupload file ke Cloud Server" }, { status: 500 });
-        }
+        // Return Base64 URL ke client untuk disimpan melalui endpoint lain
+        return NextResponse.json({ success: true, url: base64DataUri });
     } catch {
         return NextResponse.json({ error: "Gagal memproses file upload" }, { status: 500 });
     }
