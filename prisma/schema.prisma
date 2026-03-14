@@ -1,0 +1,85 @@
+// File: prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum TransactionCategory {
+  ZAKAT_FITRAH
+  ZAKAT_MAAL
+  QURBAN
+  INFAQ
+  OPERASIONAL
+  PENYALURAN
+}
+
+enum TransactionStatus {
+  PENDING
+  SUCCESS
+  FAILED
+}
+
+model Transaction {
+  id       String              @id @default(uuid())
+  amount   Int
+  type     TransactionType
+  category TransactionCategory
+  status   TransactionStatus   @default(PENDING)
+
+  donorName  String?
+  notes      String?
+  mayarTrxId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("transactions")
+}
+
+model Donation {
+  id         String  @id @default(uuid())
+  campaignId String
+  donorName  String
+  phone      String
+  message    String?
+  proofImage String?
+  amount     Int
+  status     String  @default("PENDING")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("donations")
+}
+
+model Wishlist {
+  id          String  @id @default(uuid())
+  name        String
+  description String?
+  amount      Int
+  priority    String  @default("MEDIUM")
+  status      String  @default("PLANNED")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("wishlists")
+}
+
+model Setting {
+  id    String @id @default(uuid())
+  key   String @unique
+  value String
+
+  @@map("settings")
+}
